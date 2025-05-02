@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EmoLearn: Feel & Play</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Login Screen -->
+        <div id="login-screen" class="screen">
+            <div class="login-wrapper">
+                <h1>EmoLearn: Feel & Play</h1>
+                <div class="login-form">
+                    <h2>Welcome!</h2>
+                    <div class="form-group">
+                        <label for="user-type">I am a:</label>
+                        <select id="user-type">
+                            <option value="child">Child</option>
+                            <option value="parent">Parent/Therapist</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="username">My name:</label>
+                        <input type="text" id="username" placeholder="Enter your name">
+                    </div>
+                    <button id="start-btn" class="btn-primary">Let's Play!</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Game Screen -->
+        <div id="game-screen" class="screen hidden">
+            <div class="game-header">
+                <div class="player-info">
+                    <span id="player-name">Player</span>
+                    <div class="level-indicator">
+                        <span id="level-display">Easy</span>
+                    </div>
+                </div>
+                <div class="score-time-container">
+                    <div class="score-display">
+                        <span class="icon">⭐</span>
+                        <span id="score-display">0</span>
+                    </div>
+                    <div class="timer-container">
+                        <span class="icon">⏱️</span>
+                        <span id="timer">60</span>s
+                    </div>
+                </div>
+            </div>
+
+            <div class="difficulty-selector">
+                <button class="difficulty-btn" data-level="easy">Easy</button>
+                <button class="difficulty-btn" data-level="medium">Medium</button>
+                <button class="difficulty-btn" data-level="hard">Hard</button>
+            </div>
+
+            <div class="game-content">
+                <div class="character-container">
+                    <img src="images/character-happy.png" alt="Friendly character" id="character" class="character animate__animated">
+                </div>
+
+                <div id="question-container">
+                    <p id="question-text">How is this person feeling?</p>
+                    <img id="emotion-image" src="" alt="Emotion to identify" class="emotion-img">
+                </div>
+
+                <div id="options-container" class="options-grid"></div>
+
+                <div class="feedback-container">
+                    <p id="feedback-text"></p>
+                    <div id="feedback-emoji"></div>
+                </div>
+            </div>
+
+            <div class="game-footer">
+                <button id="next-btn" class="btn-primary hidden">Next Question</button>
+                <div class="sound-controls">
+                    <button id="music-toggle" class="btn-icon">🎵</button>
+                    <button id="sound-toggle" class="btn-icon">🔊</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dashboard Screen -->
+        <div id="dashboard-screen" class="screen hidden">
+            <div class="dashboard-header">
+                <h1>Progress Dashboard</h1>
+                <button id="back-to-game" class="btn-primary">Back to Game</button>
+            </div>
+            <div class="dashboard-content">
+                <div class="child-info-card">
+                    <h2 id="child-name">Child's Name</h2>
+                    <div class="child-avatar">
+                        <img src="images/avatar-c.png" alt="Child avatar">
+                    </div>
+                </div>
+                <div class="stats-container">
+                    <div class="stat-card">
+                        <h3>Current Level</h3>
+                        <p id="current-level" class="stat-value">Easy</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Overall Accuracy</h3>
+                        <p id="accuracy" class="stat-value">0%</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Questions Answered</h3>
+                        <p id="total-questions" class="stat-value">0</p>
+                    </div>
+                </div>
+                <div class="progress-section">
+                    <h2>Progress Over Time</h2>
+                    <div class="chart-container">
+                        <canvas id="progress-chart"></canvas>
+                    </div>
+                </div>
+                <div class="emotion-stats">
+                    <div class="strengths">
+                        <h3>Emotion Strengths</h3>
+                        <ul id="strengths-list"></ul>
+                    </div>
+                    <div class="weaknesses">
+                        <h3>Needs Practice</h3>
+                        <ul id="weaknesses-list"></ul>
+                    </div>
+                </div>
+                <div class="level-recommendation">
+                    <h3>Level Recommendation</h3>
+                    <p id="recommendation-text">Based on current performance...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Victory Screen -->
+        <div id="victory-screen" class="screen hidden">
+            <div class="victory-content animate__animated animate__bounceIn">
+                <h1>Great Job! <span class="celebrate">🎉</span></h1>
+                <p id="victory-message">You got 0 out of 5 correct!</p>
+                <div class="stars-container">
+                    <span class="star">⭐</span>
+                    <span class="star">⭐</span>
+                    <span class="star">⭐</span>
+                </div>
+                <div class="level-up-container hidden" id="level-up-container">
+                    <h2>Level Up!</h2>
+                    <p>You're ready for the <span id="next-level">Medium</span> level!</p>
+                    <button id="level-up-btn" class="btn-primary">Go to Next Level</button>
+                </div>
+                <div class="victory-buttons">
+                    <button id="continue-btn" class="btn-primary">Play Again</button>
+                    <button id="dashboard-btn" class="btn-secondary">View Dashboard</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Game Over Screen -->
+        <div id="gameover-screen" class="screen hidden">
+            <div class="gameover-content animate__animated animate__bounceIn">
+                <h1>Time's Up! ⏰</h1>
+                <p>You scored <span id="final-score">0</span> out of <span id="gameover-total-questions">5</span></p>
+                <div class="gameover-buttons">
+                    <button id="try-again-btn" class="btn-primary">Try Again</button>
+                    <button id="gameover-dashboard-btn" class="btn-secondary">View Dashboard</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Audio Elements -->
+    <audio id="background-music" loop>
+        <source src="sounds/background.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="correct-sound">
+        <source src="sounds/correct.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="wrong-sound">
+        <source src="sounds/wrong.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="victory-sound">
+        <source src="sounds/victory.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="levelup-sound">
+        <source src="sounds/levelup.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="gameover-sound">
+        <source src="sounds/gameover.mp3" type="audio/mpeg">
+    </audio>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
